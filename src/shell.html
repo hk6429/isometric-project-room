@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#F5F3EC"><meta name="description" content="把專案變成一座看得懂的微縮城市。3D 等距視角、問題定位、團隊協作與專案報告。">
+<title>專案小宇宙｜3D 專案戰情室</title>
+<style>/*__STYLES__*/</style>
+</head>
+<body>
+<header class="topbar flex items-center justify-between">
+ <a class="brand flex items-center gap-3" href="#" id="brandHome"><span class="brand-mark">▦</span><span>專案小宇宙<small>PROJECT ATLAS / 3D 戰情室</small></span></a>
+ <div class="top-center"><span class="live-dot"></span> 每一個進展，都看得見 <span class="demo-badge">示範環境</span></div>
+ <button class="notification flex items-center gap-2" id="notifications" aria-label="開啟來信通知"><span aria-hidden="true">♧</span> 來信通知 <b id="mailCount">3</b></button>
+</header>
+<main id="mapView" aria-label="3D 專案地圖">
+ <div id="viewport"><canvas id="world" aria-label="可拖曳平移、滾輪縮放的 3D 地圖；亦可用下方單位清單開啟詳情" tabindex="0"></canvas><div id="labels"></div></div>
+ <div class="side-stack">
+ <section class="hud panel" aria-label="專案概況">
+  <div class="eyebrow flex items-center justify-between"><span>YOUR PROJECT, ALIVE.</span><span class="status-tag" id="projectStatus">進行中</span></div>
+  <h1 id="projectName"></h1><p class="muted text-sm" id="projectSubtitle"></p>
+  <div class="completion flex items-end justify-between"><div><span class="muted text-xs">整體完成率</span><strong id="overallProgress">—<small>%</small></strong></div><span class="trend" id="progressNote"></span></div>
+  <div class="progress-track"><span id="overallBar"></span></div>
+  <div class="metrics grid grid-cols-2 gap-3"><div><span id="qualityLabel" class="muted text-xs">整體良率</span><b id="overallYield"></b></div><div><span class="muted text-xs">待解卡點</span><b id="blockerCount"></b></div></div>
+  <button class="switch-button w-full" id="switchData">⇄ 切換範例數據</button>
+  <p class="sample-note" id="sampleCaption"></p>
+ </section>
+ <section class="focus-card panel" aria-label="今天的優先事項"><div class="eyebrow">TODAY'S FOCUS <span>01</span></div><h2 id="focusTitle"></h2><p id="focusText"></p><button id="focusButton" class="text-button">查看卡點與下一步 ↗</button></section>
+ </div>
+ <div class="map-caption"><span class="live-dot"></span> 微縮城市 · 協作正在發生 <small>拖曳平移 · 滾輪縮放 · 點選建築</small></div>
+ <div class="view-tools panel flex flex-col" aria-label="地圖工具"><button id="zoomIn" aria-label="放大">＋</button><button id="zoomOut" aria-label="縮小">−</button><button id="resetView" aria-label="回到全景">⌂</button><button id="pauseMotion" aria-label="暫停動畫" aria-pressed="false">Ⅱ</button></div>
+ <div class="legend panel"><span><i class="dot mint"></i>順利推進</span><span><i class="dot orange"></i>需要協作</span><span><i class="dot red"></i>目前卡關</span></div>
+ <div class="loading panel" id="loading" role="status">正在搭建你的專案小宇宙…</div>
+</main>
+<footer class="bottom-bar flex items-center justify-between">
+ <div class="map-key"><span class="map-icon">◇</span><div>城市總覽<small>7 個協作單位 · 3 大區域</small></div></div>
+ <nav class="dock flex items-center gap-1" aria-label="戰情室功能"><button class="active" id="homeButton">◇ <span>總覽</span></button><button id="unitsButton">▦ <span>協作單位</span></button><button id="mailButton">✉ <span>來信</span><i id="dockCount">3</i></button></nav>
+ <button class="primary dashboard-button" id="dashboardButton"><span>專案 Dashboard</span> ↗</button>
+</footer>
+<dialog id="drawer" class="drawer" aria-labelledby="drawerTitle"><div id="drawerContent"></div></dialog>
+<dialog id="unitsDialog" class="modal units-modal" aria-labelledby="unitsTitle"><div class="modal-heading"><div><div class="eyebrow">YOUR COLLABORATORS</div><h2 id="unitsTitle">協作單位</h2><p class="muted text-sm">選擇單位，在地圖上找到它。</p></div><button class="close" data-close="unitsDialog" aria-label="關閉協作單位">×</button></div><div id="unitList" class="grid gap-3"></div></dialog>
+<dialog id="mailDialog" class="modal mail-modal" aria-labelledby="mailTitle">
+ <div class="modal-heading"><div><div class="eyebrow">INBOX / PROJECT SIGNALS</div><h2 id="mailTitle">把訊息，變成下一步。</h2><p class="muted text-sm">跨單位的問題，在同一座城市解決。</p></div><button class="close" data-close="mailDialog" aria-label="關閉來信">×</button></div>
+ <div class="mail-layout"><aside id="mailList" aria-label="來信清單"></aside><section id="mailBody"></section></div>
+</dialog>
+<dialog id="dashboard" class="modal dashboard" aria-labelledby="dashboardTitle"><div class="modal-heading"><div><div class="eyebrow">PROJECT INTELLIGENCE / 全局報告</div><h2 id="dashboardTitle"></h2><p class="muted text-sm">範例資料快照 · 狀態與地圖同步</p></div><button class="close" data-close="dashboard" aria-label="關閉專案報告">×</button></div><div id="dashboardContent"></div></dialog>
+<div id="toast" role="status" class="toast" hidden></div>
+<noscript>請啟用 JavaScript，才能操作 3D 戰情室。</noscript>
+<script>/*__APP__*/</script>
+</body></html>

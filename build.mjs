@@ -1,0 +1,14 @@
+import { build } from 'esbuild';
+import { readFile, writeFile, mkdir } from 'node:fs/promises';
+import { execFileSync } from 'node:child_process';
+await mkdir('.build', { recursive: true });
+execFileSync(process.execPath, ['node_modules/@tailwindcss/cli/dist/index.mjs', '-i', 'src/styles.css', '-o', '.build/styles.css', '--minify'], { stdio: 'inherit' });
+const bundled = await build({ entryPoints:['src/app.js'], bundle:true, minify:true, write:false, format:'iife', target:'es2022', legalComments:'inline' });
+const shell = await readFile('src/shell.html','utf8');
+const styles = await readFile('.build/styles.css','utf8');
+const script = bundled.outputFiles[0].text.replace(/<\/script/gi, '<\\/script');
+const notices = (await readFile('THIRD_PARTY_NOTICES.md','utf8')).replace(/-->/g, '-- >');
+const html = shell.replace('<head>', () => `<head>\n<!--\n${notices}\n-->`).replace('/*__STYLES__*/', () => styles).replace('/*__APP__*/', () => script);
+if (html.includes('/*__APP__*/') || html.includes('/*__STYLES__*/')) throw new Error('未完成內嵌');
+await writeFile('index.html', html);
+console.log(`單一 HTML 已產生：${(Buffer.byteLength(html)/1024).toFixed(0)} KB，Three.js 與 Tailwind CSS 皆已內嵌。`);

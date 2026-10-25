@@ -1,0 +1,2 @@
+# Embedded upstream shader strings preserve their original whitespace.
+index.html -whitespace linguist-generated=true
